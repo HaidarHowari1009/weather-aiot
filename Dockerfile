@@ -27,6 +27,11 @@ RUN rm -f /etc/apache2/mods-enabled/mpm_event.conf \
     && a2enmod mpm_prefork \
     && test "$(ls /etc/apache2/mods-enabled/mpm_*.load 2>/dev/null | wc -l)" -eq 1
 
+# Explicitly disable other MPMs in apache2.conf to prevent runtime loading
+RUN echo "" >> /etc/apache2/apache2.conf && \
+    echo "# Disable event and worker MPMs, use only prefork" >> /etc/apache2/apache2.conf && \
+    echo "LoadModule mpm_prefork_module /usr/lib/apache2/modules/mod_mpm_prefork.so" >> /etc/apache2/apache2.conf
+
 # Buat virtual environment untuk Python agar library aman
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
