@@ -1,7 +1,12 @@
 # Menggunakan base image PHP 8.2 dengan server Apache
 FROM php:8.2-apache
 
+# Set variabel PORT dari Railway (default ke 80 jika tidak ada)
+ENV PORT=80
+
 # Update sistem, install Python 3, pip, dan ekstensi SQLite untuk PHP
+# (Kadang instalasi library di Debian memicu update Apache yang menyalakan mpm_event, 
+# jadi kita akan matikan secara paksa nanti)
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -10,12 +15,19 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_sqlite \
     && rm -rf /var/lib/apt/lists/*
 
-# Buat virtual environment untuk Python agar library aman (Wajib di Debian/Ubuntu modern)
+# Fix error "More than one MPM loaded" dengan mematikan event/worker dan menyalakan prefork
+RUN a2dismod mpm_event mpm_worker || true
+RUN a2enmod mpm_prefork
+
+# Buat virtual environment untuk Python agar library aman
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Aktifkan mod_rewrite Apache
 RUN a2enmod rewrite
+
+# Konfigurasi Apache agar menggunakan $PORT dari Railway alih-alih port 80 statis
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 
 # Tentukan folder kerja
 WORKDIR /var/www/html
@@ -32,5 +44,5 @@ RUN chown -R www-data:www-data /var/www/html/database \
 # Install library Python dari requirements.txt
 RUN pip install --no-cache-dir -r python/requirements.txt
 
-# Buka port 80 untuk web
-EXPOSE 80
+# Expose port (meskipun Railway mendeteksinya secara dinamis)
+EXPOSE ${PORT}
