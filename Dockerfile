@@ -26,8 +26,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Aktifkan mod_rewrite Apache
 RUN a2enmod rewrite
 
-# Konfigurasi Apache agar menggunakan $PORT dari Railway alih-alih port 80 statis
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
+# Konfigurasi Apache dibiarkan default di port 80
 
 # Tentukan folder kerja
 WORKDIR /var/www/html
@@ -44,5 +43,5 @@ RUN chown -R www-data:www-data /var/www/html/database \
 # Install library Python dari requirements.txt
 RUN pip install --no-cache-dir -r python/requirements.txt
 
-# Expose port (meskipun Railway mendeteksinya secara dinamis)
-EXPOSE ${PORT}
+# Expose port 80 untuk web server
+EXPOSE 80
