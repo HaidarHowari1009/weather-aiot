@@ -29,7 +29,10 @@ $history = $stmt->fetchAll();
 
 ?>
 
-<h2 class="mb-4">Riwayat Prediksi</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Riwayat Prediksi</h2>
+    <a href="api/export_history_csv.php" class="btn btn-success"><i class="fa-solid fa-file-csv me-2"></i>Export CSV</a>
+</div>
 
 <div class="card p-4 shadow-sm border-0">
     <div class="table-responsive">

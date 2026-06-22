@@ -71,3 +71,29 @@ Model Machine Learning (Random Forest) harus dilatih terlebih dahulu sebelum bis
 
 **Catatan Tambahan:**
 Semua data aplikasi tersimpan aman di dalam file `database/weather.sqlite`. Jika Anda ingin mereset aplikasi, Anda cukup menghapus file `weather.sqlite` tersebut, dan sistem akan otomatis membuat yang baru yang masih kosong saat Anda menjalankan aplikasi kembali.
+
+---
+
+## Panduan Deployment ke Cloud (Railway)
+
+Aplikasi ini menggunakan perpaduan **PHP (Web Server)**, **Python (Machine Learning)**, dan **SQLite (Database Lokal)**. 
+
+Karena arsitektur ini membutuhkan *environment* yang mendukung instalasi gabungan (PHP + Python) serta sistem file yang bisa menyimpan data secara persisten (untuk SQLite dan file model `.pkl`), **Vercel tidak direkomendasikan** karena arsitekturnya yang bersifat *Serverless/Read-Only*.
+
+**Platform yang sangat direkomendasikan adalah [Railway.app](https://railway.app/).**
+
+### Langkah-langkah Deploy ke Railway:
+
+1. **Gunakan Dockerfile yang telah disediakan**: Proyek ini sudah dilengkapi dengan file `Dockerfile` dan `.dockerignore` untuk memudahkan instalasi otomatis PHP, Apache, Python, dan library pendukungnya di server Railway.
+2. **Push ke GitHub**: Upload/push seluruh kode Anda (termasuk `Dockerfile`) ke repository GitHub.
+3. **Deploy di Railway**:
+   - Buka Railway.app dan buat **New Project** > **Deploy from GitHub repo**.
+   - Pilih repository Anda. Railway akan otomatis membaca `Dockerfile` dan membangun servernya.
+4. **Tambahkan Volume (Wajib)**:
+   - Setelah selesai deploy, buka layanan tersebut di Railway.
+   - Buka tab **Volumes**, lalu klik **Create Volume**.
+   - Tambahkan Volume pertama dengan **Mount Path**: `/var/www/html/database` (agar data SQLite tidak hilang).
+   - Tambahkan Volume kedua dengan **Mount Path**: `/var/www/html/python` (agar file model `.pkl` hasil training tidak hilang).
+5. **Generate Domain**:
+   - Buka tab **Settings** > **Networking** > **Public Networking**.
+   - Klik **Generate Domain** untuk mendapatkan URL publik aplikasi Anda.

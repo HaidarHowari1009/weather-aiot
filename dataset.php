@@ -51,7 +51,7 @@ $dataset = $stmt->fetchAll();
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">Dataset Historis</h2>
-    <a href="#" class="btn btn-success"><i class="fa-solid fa-file-csv me-2"></i>Export CSV</a>
+    <a href="api/export_csv.php?search=<?= urlencode($search) ?>&date_filter=<?= urlencode($date_filter) ?>" class="btn btn-success"><i class="fa-solid fa-file-csv me-2"></i>Export CSV</a>
 </div>
 
 <div class="card p-4 shadow-sm border-0">
