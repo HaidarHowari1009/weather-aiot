@@ -53,14 +53,14 @@ $history = $stmt->fetchAll();
                     <?php foreach ($history as $row): ?>
                         <tr>
                             <td><?= htmlspecialchars(formatLocalTime($row['created_at'])) ?></td>
-                            <td><?= number_format($row['temperature'], 1) ?> &deg;C</td>
-                            <td><?= number_format($row['humidity'], 1) ?> %</td>
-                            <td><?= number_format($row['wind_speed'], 1) ?> km/h</td>
-                            <td><?= number_format($row['cloud_cover'], 1) ?> %</td>
+                            <td><?= nf($row['temperature'], 1) ?> &deg;C</td>
+                            <td><?= nf($row['humidity'], 1) ?> %</td>
+                            <td><?= nf($row['wind_speed'], 1) ?> km/h</td>
+                            <td><?= nf($row['cloud_cover'], 1) ?> %</td>
                             <td><span class="badge bg-primary"><?= htmlspecialchars($row['prediction_result']) ?></span></td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <span class="me-2 fw-bold"><?= number_format($row['confidence'], 1) ?>%</span>
+                                    <span class="me-2 fw-bold"><?= nf($row['confidence'], 1) ?>%</span>
                                     <div class="progress flex-grow-1" style="height: 6px;">
                                         <div class="progress-bar bg-success" style="width: <?= $row['confidence'] ?>%;"></div>
                                     </div>

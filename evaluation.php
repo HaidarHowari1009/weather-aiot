@@ -21,7 +21,7 @@ $eval = $stmt->fetch();
                 </div>
                 <div>
                     <h6 class="text-muted mb-1">Accuracy</h6>
-                    <h3 class="mb-0 fw-bold"><?= number_format($eval['accuracy'] * 100, 2) ?>%</h3>
+                    <h3 class="mb-0 fw-bold"><?= nf($eval['accuracy'] * 100, 2) ?>%</h3>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@ $eval = $stmt->fetch();
                 </div>
                 <div>
                     <h6 class="text-muted mb-1">Precision</h6>
-                    <h3 class="mb-0 fw-bold"><?= number_format($eval['precision_score'] * 100, 2) ?>%</h3>
+                    <h3 class="mb-0 fw-bold"><?= nf($eval['precision_score'] * 100, 2) ?>%</h3>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@ $eval = $stmt->fetch();
                 </div>
                 <div>
                     <h6 class="text-muted mb-1">Recall</h6>
-                    <h3 class="mb-0 fw-bold"><?= number_format($eval['recall_score'] * 100, 2) ?>%</h3>
+                    <h3 class="mb-0 fw-bold"><?= nf($eval['recall_score'] * 100, 2) ?>%</h3>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@ $eval = $stmt->fetch();
                 </div>
                 <div>
                     <h6 class="text-muted mb-1">F1-Score</h6>
-                    <h3 class="mb-0 fw-bold"><?= number_format($eval['f1_score'] * 100, 2) ?>%</h3>
+                    <h3 class="mb-0 fw-bold"><?= nf($eval['f1_score'] * 100, 2) ?>%</h3>
                 </div>
             </div>
         </div>

@@ -48,7 +48,7 @@ elseif (strpos($weather, 'berawan') !== false) $icon = "fa-cloud text-secondary"
                         </div>
                         <div>
                             <p class="text-muted mb-0">Suhu Saat Ini</p>
-                            <h4 class="fw-bold mb-0"><?= number_format($latest['temperature'], 1) ?> &deg;C</h4>
+                            <h4 class="fw-bold mb-0"><?= nf($latest['temperature'], 1) ?> &deg;C</h4>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ elseif (strpos($weather, 'berawan') !== false) $icon = "fa-cloud text-secondary"
                         </div>
                         <div>
                             <p class="text-muted mb-0">Kelembapan Saat Ini</p>
-                            <h4 class="fw-bold mb-0"><?= number_format($latest['humidity'], 1) ?> %</h4>
+                            <h4 class="fw-bold mb-0"><?= nf($latest['humidity'], 1) ?> %</h4>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ elseif (strpos($weather, 'berawan') !== false) $icon = "fa-cloud text-secondary"
                         </div>
                         <div>
                             <p class="text-muted mb-0">Kecepatan Angin</p>
-                            <h4 class="fw-bold mb-0"><?= number_format($latest['wind_speed'], 1) ?> km/h</h4>
+                            <h4 class="fw-bold mb-0"><?= nf($latest['wind_speed'], 1) ?> km/h</h4>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ elseif (strpos($weather, 'berawan') !== false) $icon = "fa-cloud text-secondary"
                         </div>
                         <div>
                             <p class="text-muted mb-0">Tutupan Awan</p>
-                            <h4 class="fw-bold mb-0"><?= number_format($latest['cloud_cover'], 1) ?> %</h4>
+                            <h4 class="fw-bold mb-0"><?= nf($latest['cloud_cover'], 1) ?> %</h4>
                         </div>
                     </div>
                 </div>

@@ -31,12 +31,12 @@ fputcsv($output, [
 foreach ($history as $row) {
     fputcsv($output, [
         $row['created_at'],
-        number_format($row['temperature'], 1, '.', ''),
-        number_format($row['humidity'], 1, '.', ''),
-        number_format($row['wind_speed'], 1, '.', ''),
-        number_format($row['cloud_cover'], 1, '.', ''),
+        nf($row['temperature'], 1, '.', ''),
+        nf($row['humidity'], 1, '.', ''),
+        nf($row['wind_speed'], 1, '.', ''),
+        nf($row['cloud_cover'], 1, '.', ''),
         $row['prediction_result'],
-        number_format($row['confidence'], 1, '.', '')
+        nf($row['confidence'], 1, '.', '')
     ], ';');
 }
 

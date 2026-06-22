@@ -53,10 +53,10 @@ fputcsv($output, [
 foreach ($dataset as $row) {
     fputcsv($output, [
         $row['observation_time'],
-        number_format($row['temperature'], 1, '.', ''),
-        number_format($row['humidity'], 1, '.', ''),
-        number_format($row['wind_speed'], 1, '.', ''),
-        number_format($row['cloud_cover'], 1, '.', ''),
+        nf($row['temperature'], 1, '.', ''),
+        nf($row['humidity'], 1, '.', ''),
+        nf($row['wind_speed'], 1, '.', ''),
+        nf($row['cloud_cover'], 1, '.', ''),
         $row['weather_desc']
     ], ';');
 }

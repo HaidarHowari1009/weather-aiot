@@ -44,4 +44,9 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+
+// Helper: safe number_format that handles null (PHP 8.1+ deprecates null)
+function nf($value, $decimals = 0, $dec_point = '.', $thousands_sep = ',') {
+    return number_format((float)($value ?? 0), $decimals, $dec_point, $thousands_sep);
+}
 ?>

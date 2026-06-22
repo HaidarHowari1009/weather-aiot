@@ -84,10 +84,10 @@ $dataset = $stmt->fetchAll();
                     <?php foreach ($dataset as $row): ?>
                         <tr>
                             <td><?= htmlspecialchars($row['observation_time']) ?></td>
-                            <td><?= number_format($row['temperature'], 1) ?></td>
-                            <td><?= number_format($row['humidity'], 1) ?></td>
-                            <td><?= number_format($row['wind_speed'], 1) ?></td>
-                            <td><?= number_format($row['cloud_cover'], 1) ?></td>
+                            <td><?= nf($row['temperature'], 1) ?></td>
+                            <td><?= nf($row['humidity'], 1) ?></td>
+                            <td><?= nf($row['wind_speed'], 1) ?></td>
+                            <td><?= nf($row['cloud_cover'], 1) ?></td>
                             <td><span class="badge bg-secondary"><?= htmlspecialchars($row['weather_desc']) ?></span></td>
                         </tr>
                     <?php endforeach; ?>
