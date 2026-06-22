@@ -6,14 +6,14 @@ Sistem ini bersifat **Mandiri (Portable)** sehingga **TIDAK MEMBUTUHKAN XAMPP at
 
 ## Persyaratan Sistem
 
-- **Sistem Operasi**: Windows (disarankan)
-- **Editor**: Visual Studio Code (VSCode)
-- **PHP**: Versi 8.0 atau lebih baru (harus sudah terdaftar di Environment Variables/PATH Windows)
-- **Python**: Versi 3.8 atau lebih baru (harus sudah terdaftar di Environment Variables/PATH Windows)
+- **Sistem Operasi**: Windows / Linux / macOS
+- **Editor**: Visual Studio Code (VSCode) (disarankan)
+- **PHP**: Versi 8.0 atau lebih baru (harus sudah terdaftar di Environment Variables/PATH)
+- **Python**: Versi 3.8 atau lebih baru (harus sudah terdaftar di Environment Variables/PATH)
 
 ---
 
-## Panduan Menjalankan Aplikasi (di VSCode)
+## Panduan Menjalankan Aplikasi (Lokal)
 
 ### 1. Buka Proyek di VSCode
 1. Buka Visual Studio Code.
@@ -36,15 +36,12 @@ Sistem ini menggunakan Python untuk melatih model dan memprediksi cuaca. Anda pe
    ```
 
 ### 3. Menjalankan Server Aplikasi (PHP)
-Agar web bisa dibuka di browser, kita harus menyalakan server bawaan PHP dan mengaktifkan ekstensi SQLite.
+Agar web bisa dibuka di browser, kita harus menyalakan server bawaan PHP.
 1. Pastikan Anda berada di folder utama proyek (`weather-aiot`) di Terminal VSCode.
 2. Jalankan perintah berikut untuk menyalakan server:
    ```cmd
-      mkdir C:\Users\ASUS\Documents\weather-aiot
-   xcopy "C:\Users\ASUS\.gemini\antigravity-ide\scratch\weather-aiot" "C:\Users\ASUS\Documents\weather-aiot" /E /I
+   php -S localhost:8000
    ```
-   *(Catatan: Path `C:\php-8.4.8\ext` disesuaikan dengan lokasi instalasi PHP di komputer Anda).*
-
 3. Buka browser (Chrome/Edge/Firefox) dan akses:
    👉 **http://localhost:8000**
 
@@ -76,7 +73,7 @@ Semua data aplikasi tersimpan aman di dalam file `database/weather.sqlite`. Jika
 
 ## Panduan Deployment ke Cloud (Railway)
 
-Aplikasi ini menggunakan perpaduan **PHP (Web Server)**, **Python (Machine Learning)**, dan **SQLite (Database Lokal)**. 
+Aplikasi ini menggunakan perpaduan **PHP (Web Server)**, **Python (Machine Learning)**, dan **SQLite (Database Lokal)**.
 
 Karena arsitektur ini membutuhkan *environment* yang mendukung instalasi gabungan (PHP + Python) serta sistem file yang bisa menyimpan data secara persisten (untuk SQLite dan file model `.pkl`), **Vercel tidak direkomendasikan** karena arsitekturnya yang bersifat *Serverless/Read-Only*.
 
@@ -84,16 +81,15 @@ Karena arsitektur ini membutuhkan *environment* yang mendukung instalasi gabunga
 
 ### Langkah-langkah Deploy ke Railway:
 
-1. **Gunakan Dockerfile yang telah disediakan**: Proyek ini sudah dilengkapi dengan file `Dockerfile` dan `.dockerignore` untuk memudahkan instalasi otomatis PHP, Apache, Python, dan library pendukungnya di server Railway.
-2. **Push ke GitHub**: Upload/push seluruh kode Anda (termasuk `Dockerfile`) ke repository GitHub.
-3. **Deploy di Railway**:
+1. **Push ke GitHub**: Upload/push seluruh kode Anda (termasuk `Dockerfile`) ke repository GitHub.
+2. **Deploy di Railway**:
    - Buka Railway.app dan buat **New Project** > **Deploy from GitHub repo**.
    - Pilih repository Anda. Railway akan otomatis membaca `Dockerfile` dan membangun servernya.
-4. **Tambahkan Volume (Wajib)**:
+   - Startup script (`start.sh`) akan otomatis meng-initialize database dan melatih model saat pertama kali dijalankan.
+3. **Tambahkan Volume (Wajib untuk Persistensi Data)**:
    - Setelah selesai deploy, buka layanan tersebut di Railway.
    - Buka tab **Volumes**, lalu klik **Create Volume**.
-   - Tambahkan Volume pertama dengan **Mount Path**: `/var/www/html/database` (agar data SQLite tidak hilang).
-   - Tambahkan Volume kedua dengan **Mount Path**: `/var/www/html/python` (agar file model `.pkl` hasil training tidak hilang).
-5. **Generate Domain**:
+   - Tambahkan Volume dengan **Mount Path**: `/var/www/html/database` (agar data SQLite dan model `.pkl` tidak hilang saat container restart).
+4. **Generate Domain**:
    - Buka tab **Settings** > **Networking** > **Public Networking**.
    - Klik **Generate Domain** untuk mendapatkan URL publik aplikasi Anda.

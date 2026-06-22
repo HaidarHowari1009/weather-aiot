@@ -1,4 +1,4 @@
-# Menggunakan base image PHP 8.2 versi CLI (Tanpa Apache yang sering error)
+# Menggunakan base image PHP 8.2 versi CLI
 FROM php:8.2-cli
 
 # Update sistem, install Python 3, pip, dan ekstensi SQLite untuk PHP
@@ -17,20 +17,21 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Tentukan folder kerja
 WORKDIR /var/www/html
 
-# Copy semua file proyek Anda ke dalam server
+# Copy semua file proyek ke dalam container
 COPY . /var/www/html/
 
-# Berikan izin akses folder
+# Berikan izin akses folder dan startup script
 RUN mkdir -p /var/www/html/assets/images \
-    && chown -R www-data:www-data /var/www/html/database \
-    && chown -R www-data:www-data /var/www/html/python \
-    && chown -R www-data:www-data /var/www/html/assets/images \
     && chmod -R 775 /var/www/html/database \
     && chmod -R 775 /var/www/html/python \
-    && chmod -R 775 /var/www/html/assets/images
+    && chmod -R 775 /var/www/html/assets/images \
+    && chmod +x /var/www/html/start.sh
 
 # Install library Python
 RUN pip install --no-cache-dir -r python/requirements.txt
 
-# Jalankan PHP Built-in Server (Sangat stabil di Railway karena otomatis membaca $PORT)
-CMD php -S 0.0.0.0:${PORT:-80} -t /var/www/html
+# Expose port (Railway akan set $PORT secara otomatis)
+EXPOSE 80
+
+# Gunakan startup script yang menangani initialization + server
+CMD ["/bin/bash", "/var/www/html/start.sh"]

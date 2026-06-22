@@ -133,6 +133,12 @@ body {
     #sidebar.active {
         margin-left: 0;
     }
+    .wrapper {
+        flex-direction: column;
+    }
+    #sidebar.active ~ #content {
+        margin-left: 0;
+    }
     #sidebarCollapse span {
         display: none;
     }

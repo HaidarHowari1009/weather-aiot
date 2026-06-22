@@ -1,11 +1,6 @@
 <?php
 require_once '../config/database.php';
 
-// Pagination settings
-$limit = 99999; // Unlimited for export
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $limit;
-
 // Search & Filter
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $date_filter = isset($_GET['date_filter']) ? trim($_GET['date_filter']) : '';

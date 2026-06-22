@@ -1,9 +1,7 @@
 .git
 .gitignore
 .vscode
-database/weather.sqlite
 python/__pycache__
-python/*.pkl
 python/venv
 python/.venv
 .venv

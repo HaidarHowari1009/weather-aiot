@@ -1,0 +1,8 @@
+# Ensure shell scripts always use LF line endings (required for Linux/Docker)
+*.sh text eol=lf
+
+# Ensure Python scripts use LF line endings
+*.py text eol=lf
+
+# Default auto-detection for other files
+* text=auto

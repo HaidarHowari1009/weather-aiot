@@ -7,16 +7,14 @@ $message = '';
 $status = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['train_model'])) {
-    // Run Python script
-    // Note: Assuming 'python' is in the system PATH. Use absolute path if necessary (e.g., 'C:\\Python310\\python.exe')
+    // Run Python training script
     $output = [];
     $return_var = 0;
     
-    // Change directory to python folder so it saves .pkl and images correctly
-    chdir('python');
+    $python_dir = __DIR__ . '/python';
     $python_cmd = file_exists('/opt/venv/bin/python') ? '/opt/venv/bin/python' : 'python';
-    exec("$python_cmd train_model.py 2>&1", $output, $return_var);
-    chdir('..');
+    $script_path = $python_dir . '/train_model.py';
+    exec("$python_cmd $script_path 2>&1", $output, $return_var);
     
     $json_string = implode("", $output);
     $result = json_decode($json_string, true);

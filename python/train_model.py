@@ -8,12 +8,19 @@ import sqlite3
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend for server environments
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 
+# Use script directory for resolving paths (not CWD)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_DIR = os.path.join(SCRIPT_DIR, '..', 'database')
+ASSETS_DIR = os.path.join(SCRIPT_DIR, '..', 'assets', 'images')
+
 # Configuration
-DB_PATH = '../database/weather.sqlite'
+DB_PATH = os.path.join(DB_DIR, 'weather.sqlite')
 
 try:
     # Connect to Database
@@ -35,8 +42,8 @@ try:
     le = LabelEncoder()
     y_encoded = le.fit_transform(y)
     
-    # Save Label Encoder to decode prediction later
-    joblib.dump(le, '../database/label_encoder.pkl')
+    # Save Label Encoder to database directory
+    joblib.dump(le, os.path.join(DB_DIR, 'label_encoder.pkl'))
     
     # Train Test Split (80% training, 20% testing)
     X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
@@ -45,8 +52,8 @@ try:
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train, y_train)
     
-    # Save Model
-    joblib.dump(model, '../database/weather_model.pkl')
+    # Save Model to database directory
+    joblib.dump(model, os.path.join(DB_DIR, 'weather_model.pkl'))
     
     # Evaluation
     y_pred = model.predict(X_test)
@@ -72,11 +79,10 @@ try:
     plt.title('Confusion Matrix')
     
     # Ensure images dir exists
-    img_dir = '../assets/images'
-    if not os.path.exists(img_dir):
-        os.makedirs(img_dir)
+    if not os.path.exists(ASSETS_DIR):
+        os.makedirs(ASSETS_DIR)
         
-    plt.savefig(f'{img_dir}/confusion_matrix.png')
+    plt.savefig(os.path.join(ASSETS_DIR, 'confusion_matrix.png'))
     plt.close()
     
     cursor.close()

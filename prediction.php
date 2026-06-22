@@ -13,16 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['predict'])) {
     $wind = (float)$_POST['wind_speed'];
     $cloud = (float)$_POST['cloud_cover'];
     
-    // Execute python
+    // Execute python prediction script
     $output = [];
     $return_var = 0;
     
-    // Make sure we are in python dir
-    chdir('python');
+    $python_dir = __DIR__ . '/python';
     $python_cmd = file_exists('/opt/venv/bin/python') ? '/opt/venv/bin/python' : 'python';
-    $cmd = escapeshellcmd("$python_cmd predict.py " . escapeshellarg($temp) . " " . escapeshellarg($hum) . " " . escapeshellarg($wind) . " " . escapeshellarg($cloud));
+    $script_path = $python_dir . '/predict.py';
+    $cmd = escapeshellcmd("$python_cmd $script_path " . escapeshellarg($temp) . " " . escapeshellarg($hum) . " " . escapeshellarg($wind) . " " . escapeshellarg($cloud));
     exec("$cmd 2>&1", $output, $return_var);
-    chdir('..');
     
     $json_string = implode("", $output);
     $result = json_decode($json_string, true);
