@@ -35,10 +35,14 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Berikan izin akses agar PHP bisa menulis/mengedit database SQLite & file model ML Python
-RUN chown -R www-data:www-data /var/www/html/database \
+# Juga buat folder assets/images jika belum ada, dan beri izin write
+RUN mkdir -p /var/www/html/assets/images \
+    && chown -R www-data:www-data /var/www/html/database \
     && chown -R www-data:www-data /var/www/html/python \
+    && chown -R www-data:www-data /var/www/html/assets/images \
     && chmod -R 775 /var/www/html/database \
-    && chmod -R 775 /var/www/html/python
+    && chmod -R 775 /var/www/html/python \
+    && chmod -R 775 /var/www/html/assets/images
 
 # Install library Python dari requirements.txt
 RUN pip install --no-cache-dir -r python/requirements.txt

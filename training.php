@@ -14,7 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['train_model'])) {
     
     // Change directory to python folder so it saves .pkl and images correctly
     chdir('python');
-    exec("python train_model.py 2>&1", $output, $return_var);
+    $python_cmd = file_exists('/opt/venv/bin/python') ? '/opt/venv/bin/python' : 'python';
+    exec("$python_cmd train_model.py 2>&1", $output, $return_var);
     chdir('..');
     
     $json_string = implode("", $output);

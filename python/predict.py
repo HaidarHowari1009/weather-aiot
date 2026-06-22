@@ -16,8 +16,8 @@ try:
     cloud = float(sys.argv[4])
 
     # Load Model and Encoder
-    model = joblib.load('weather_model.pkl')
-    le = joblib.load('label_encoder.pkl')
+    model = joblib.load('../database/weather_model.pkl')
+    le = joblib.load('../database/label_encoder.pkl')
 
     # Predict
     input_data = [[temp, hum, wind, cloud]]

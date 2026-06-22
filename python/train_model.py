@@ -36,7 +36,7 @@ try:
     y_encoded = le.fit_transform(y)
     
     # Save Label Encoder to decode prediction later
-    joblib.dump(le, 'label_encoder.pkl')
+    joblib.dump(le, '../database/label_encoder.pkl')
     
     # Train Test Split (80% training, 20% testing)
     X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
@@ -46,7 +46,7 @@ try:
     model.fit(X_train, y_train)
     
     # Save Model
-    joblib.dump(model, 'weather_model.pkl')
+    joblib.dump(model, '../database/weather_model.pkl')
     
     # Evaluation
     y_pred = model.predict(X_test)

@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['predict'])) {
     
     // Make sure we are in python dir
     chdir('python');
-    $cmd = escapeshellcmd("python predict.py " . escapeshellarg($temp) . " " . escapeshellarg($hum) . " " . escapeshellarg($wind) . " " . escapeshellarg($cloud));
+    $python_cmd = file_exists('/opt/venv/bin/python') ? '/opt/venv/bin/python' : 'python';
+    $cmd = escapeshellcmd("$python_cmd predict.py " . escapeshellarg($temp) . " " . escapeshellarg($hum) . " " . escapeshellarg($wind) . " " . escapeshellarg($cloud));
     exec("$cmd 2>&1", $output, $return_var);
     chdir('..');
     
