@@ -47,8 +47,5 @@ RUN mkdir -p /var/www/html/assets/images \
 # Install library Python dari requirements.txt
 RUN pip install --no-cache-dir -r python/requirements.txt
 
-# Expose port yang ditentukan Railway (atau 80 sebagai fallback)
-EXPOSE ${PORT}
-
-# Ganti konfigurasi port Apache saat runtime agar sesuai dengan port Railway, lalu jalankan Apache
-CMD sed -i "s/80/${PORT}/g" /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf && docker-php-entrypoint apache2-foreground
+# Expose port 80 untuk web server
+EXPOSE 80
