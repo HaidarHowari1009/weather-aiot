@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_sqlite \
     && rm -rf /var/lib/apt/lists/*
 
-# Fix error "More than one MPM loaded" dengan mematikan event/worker dan menyalakan prefork
-RUN a2dismod mpm_event mpm_worker || true
+# Fix error "More than one MPM loaded" secara paksa
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.load /etc/apache2/mods-enabled/mpm_worker.load /etc/apache2/mods-enabled/mpm_event.conf /etc/apache2/mods-enabled/mpm_worker.conf
 RUN a2enmod mpm_prefork
 
 # Buat virtual environment untuk Python agar library aman
