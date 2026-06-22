@@ -16,8 +16,12 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Fix error "More than one MPM loaded" dengan mematikan event/worker dan menyalakan prefork
-RUN a2dismod mpm_event mpm_worker || true
-RUN a2enmod mpm_prefork
+# Urutan penting: aktifkan prefork dulu, lalu nonaktifkan event & worker secara paksa,
+# kemudian verifikasi hanya satu MPM yang aktif.
+RUN a2enmod mpm_prefork \
+    && a2dismod mpm_event mpm_worker || true \
+    && find /etc/apache2/mods-enabled/ -name 'mpm_event.load' -o -name 'mpm_worker.load' | xargs rm -f \
+    && echo "Active MPMs:" && ls /etc/apache2/mods-enabled/mpm_* 2>/dev/null || true
 
 # Buat virtual environment untuk Python agar library aman
 RUN python3 -m venv /opt/venv
